@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Figtree", system-ui, sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4d4d8; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700
+           text-white font-medium px-4 py-2.5 rounded-lg text-sm
+           transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed
+           cursor-pointer;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 bg-white hover:bg-zinc-50
+           text-zinc-700 hover:text-zinc-900 font-medium px-4 py-2.5 rounded-lg text-sm
+           transition-colors duration-150 border border-zinc-200 cursor-pointer;
+  }
+
+  .input-field {
+    @apply w-full bg-white border border-zinc-300 rounded-lg px-3.5 py-2.5
+           text-zinc-900 placeholder:text-zinc-400 text-sm
+           focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20
+           transition-colors duration-150;
+  }
+
+  .field-label {
+    @apply block text-xs font-medium text-zinc-500 mb-1.5 uppercase tracking-wide;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium;
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-up  { animation: fadeUp  0.3s ease-out forwards; }
+.animate-fade-in  { animation: fadeIn  0.2s ease-out forwards; }
+.animate-slide-in { animation: fadeIn  0.2s ease-out forwards; }
