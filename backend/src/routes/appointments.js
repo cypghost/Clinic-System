@@ -137,6 +137,23 @@ router.patch("/:id", (req, res) => {
     return res.status(400).json({ error: `status must be one of: ${validStatuses.join(", ")}` });
   }
 
+  // Patients may only cancel — no other status or field changes allowed
+  if (role === "patient") {
+    if (status && status !== "cancelled") {
+      return res.status(403).json({ error: "Patients may only cancel appointments" });
+    }
+    if (doctor_name || department || date || time || reason) {
+      return res.status(403).json({ error: "Patients cannot modify appointment details" });
+    }
+  }
+
+  // Doctors may only change status and notes — not appointment logistics
+  if (role === "doctor") {
+    if (doctor_name || department || date || time || reason) {
+      return res.status(403).json({ error: "Doctors cannot modify appointment details" });
+    }
+  }
+
   db.prepare(`
     UPDATE appointments
     SET

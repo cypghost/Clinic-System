@@ -8,7 +8,8 @@ const { db } = require("../db");
  * Body: { name, email, password, role? }
  */
 router.post("/register", (req, res) => {
-  const { name, email, password, role = "patient" } = req.body;
+  const { name, email, password } = req.body;
+  const role = "patient"; // public registration always creates patients
 
   if (!name || !email || !password) {
     return res.status(400).json({ error: "name, email, and password are required" });
@@ -16,11 +17,6 @@ router.post("/register", (req, res) => {
 
   if (password.length < 6) {
     return res.status(400).json({ error: "Password must be at least 6 characters" });
-  }
-
-  const validRoles = ["patient", "doctor", "admin"];
-  if (!validRoles.includes(role)) {
-    return res.status(400).json({ error: `role must be one of: ${validRoles.join(", ")}` });
   }
 
   const existing = db.prepare("SELECT id FROM users WHERE email = ?").get(email);
