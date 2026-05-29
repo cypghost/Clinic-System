@@ -17,6 +17,7 @@ async function createApp() {
     origin: process.env.FRONTEND_URL || "http://localhost:3000",
     credentials: true,
   }));
+
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
 
@@ -31,12 +32,14 @@ async function createApp() {
   app.get("/api/health", (_req, res) =>
     res.json({ status: "ok", time: new Date().toISOString() })
   );
+
   app.use("/api/auth",         authRoutes);
   app.use("/api/appointments", appointmentRoutes);
 
   // ── 404 & Error handlers ─────────────────────────────────────────────────
   app.use((_req, res) => res.status(404).json({ error: "Route not found" }));
-  // eslint-disable-next-line no-unused-vars
+ 
+  // eslint - disable - next - line no - unused - vars
   app.use((err, _req, res, _next) => {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });

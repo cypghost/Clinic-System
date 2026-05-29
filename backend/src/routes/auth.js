@@ -20,6 +20,7 @@ router.post("/register", (req, res) => {
   }
 
   const existing = db.prepare("SELECT id FROM users WHERE email = ?").get(email);
+  
   if (existing) {
     return res.status(409).json({ error: "An account with this email already exists" });
   }

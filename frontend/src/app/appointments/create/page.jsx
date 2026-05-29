@@ -4,32 +4,58 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { appointmentsApi } from "@/lib/api";
 import Navbar from "@/components/Navbar";
-import { ArrowLeft, CalendarCheck, AlertCircle, CheckCircle2 } from "lucide-react";
+import {
+  ArrowLeft,
+  CalendarCheck,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
 
 const DEPARTMENTS = [
-  "Cardiology", "Neurology", "Dermatology", "Orthopedics",
-  "Pediatrics", "Ophthalmology", "Gynecology", "Oncology",
-  "Psychiatry", "General Medicine", "Emergency",
+  "Cardiology",
+  "Neurology",
+  "Dermatology",
+  "Orthopedics",
+  "Pediatrics",
+  "Ophthalmology",
+  "Gynecology",
+  "Oncology",
+  "Psychiatry",
+  "General Medicine",
+  "Emergency",
 ];
 
 const DOCTORS = {
-  "Cardiology":       ["Dr. Sarah Melo",    "Dr. Kebede Alemu"  ],
-  "Neurology":        ["Dr. Alex Tadesse",  "Dr. Marta Girma"   ],
-  "Dermatology":      ["Dr. Liya Haile",    "Dr. Samuel Bekele" ],
-  "Orthopedics":      ["Dr. Yonas Tesfaye", "Dr. Hana Mesfin"   ],
-  "Pediatrics":       ["Dr. Selam Worku",   "Dr. Dawit Abebe"   ],
-  "Ophthalmology":    ["Dr. Tigist Desta",  "Dr. Bereket Tesfaw"],
-  "Gynecology":       ["Dr. Meron Alemu",   "Dr. Aziza Bekele"  ],
-  "Oncology":         ["Dr. Alem Girma",    "Dr. Firew Haile"   ],
-  "Psychiatry":       ["Dr. Rahel Tadesse", "Dr. Naod Mekonnen" ],
-  "General Medicine": ["Dr. Tewodros Mamo", "Dr. Kidist Abebe"  ],
-  "Emergency":        ["Dr. Yosef Girma",   "Dr. Almaz Tesfaye" ],
+  Cardiology: ["Dr. Sarah Melo", "Dr. Kebede Alemu"],
+  Neurology: ["Dr. Alex Tadesse", "Dr. Marta Girma"],
+  Dermatology: ["Dr. Liya Haile", "Dr. Samuel Bekele"],
+  Orthopedics: ["Dr. Yonas Tesfaye", "Dr. Hana Mesfin"],
+  Pediatrics: ["Dr. Selam Worku", "Dr. Dawit Abebe"],
+  Ophthalmology: ["Dr. Tigist Desta", "Dr. Bereket Tesfaw"],
+  Gynecology: ["Dr. Meron Alemu", "Dr. Aziza Bekele"],
+  Oncology: ["Dr. Alem Girma", "Dr. Firew Haile"],
+  Psychiatry: ["Dr. Rahel Tadesse", "Dr. Naod Mekonnen"],
+  "General Medicine": ["Dr. Tewodros Mamo", "Dr. Kidist Abebe"],
+  Emergency: ["Dr. Yosef Girma", "Dr. Almaz Tesfaye"],
 };
 
 const TIME_SLOTS = [
-  "08:00","08:30","09:00","09:30","10:00","10:30",
-  "11:00","11:30","13:00","13:30","14:00","14:30",
-  "15:00","15:30","16:00","16:30",
+  "08:00",
+  "08:30",
+  "09:00",
+  "09:30",
+  "10:00",
+  "10:30",
+  "11:00",
+  "11:30",
+  "13:00",
+  "13:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
 ];
 
 const today = () => new Date().toISOString().split("T")[0];
@@ -38,14 +64,22 @@ export default function CreateAppointmentPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError]     = useState("");
-  const [form, setForm]       = useState({
-    department: "", doctor_name: "", date: "", time: "", reason: "", notes: "",
+  const [error, setError] = useState("");
+  const [form, setForm] = useState({
+    department: "",
+    doctor_name: "",
+    date: "",
+    time: "",
+    reason: "",
+    notes: "",
   });
 
   useEffect(() => {
     const token = localStorage.getItem("clinic_token");
-    if (!token) { router.push("/login"); return; }
+    if (!token) {
+      router.push("/login");
+      return;
+    }
     try {
       const raw = localStorage.getItem("clinic_user");
       const u = raw ? JSON.parse(raw) : null;
@@ -87,8 +121,12 @@ export default function CreateAppointmentPage() {
             <div className="w-14 h-14 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 className="w-7 h-7 text-emerald-600" />
             </div>
-            <h2 className="text-xl font-semibold text-zinc-900 mb-1">Appointment booked</h2>
-            <p className="text-sm text-zinc-400">Redirecting to your appointments…</p>
+            <h2 className="text-xl font-semibold text-zinc-900 mb-1">
+              Appointment booked
+            </h2>
+            <p className="text-sm text-zinc-400">
+              Redirecting to your appointments…
+            </p>
           </div>
         </div>
       </div>
@@ -96,26 +134,10 @@ export default function CreateAppointmentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 flex flex-col">
+    <div className="min-h-screen bg-blue-200 flex flex-col">
       <Navbar />
       <main className="flex-1 max-w-xl mx-auto w-full px-4 py-8">
-
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-7">
-          <Link
-            href="/appointments"
-            className="p-1.5 rounded-lg hover:bg-zinc-200 transition-colors text-zinc-400 hover:text-zinc-700"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-          <div>
-            <h1 className="text-xl font-semibold text-zinc-900">Book appointment</h1>
-            <p className="text-sm text-zinc-400 mt-0.5">Fill in the details below</p>
-          </div>
-        </div>
-
         <form onSubmit={handleSubmit} className="space-y-4">
-
           {/* Department & Doctor */}
           <div className="bg-white border border-zinc-200 rounded-xl p-5">
             <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">
@@ -124,9 +146,20 @@ export default function CreateAppointmentPage() {
             <div className="space-y-3">
               <div>
                 <label className="field-label">Department</label>
-                <select value={form.department} onChange={set("department")} required className="input-field">
-                  <option value="" disabled>Select department</option>
-                  {DEPARTMENTS.map((d) => <option key={d} value={d}>{d}</option>)}
+                <select
+                  value={form.department}
+                  onChange={set("department")}
+                  required
+                  className="input-field"
+                >
+                  <option value="" disabled>
+                    Select department
+                  </option>
+                  {DEPARTMENTS.map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -139,9 +172,15 @@ export default function CreateAppointmentPage() {
                   className="input-field disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <option value="" disabled>
-                    {form.department ? "Select doctor" : "Select department first"}
+                    {form.department
+                      ? "Select doctor"
+                      : "Select department first"}
                   </option>
-                  {(DOCTORS[form.department] || []).map((d) => <option key={d} value={d}>{d}</option>)}
+                  {(DOCTORS[form.department] || []).map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -166,9 +205,20 @@ export default function CreateAppointmentPage() {
               </div>
               <div>
                 <label className="field-label">Time slot</label>
-                <select value={form.time} onChange={set("time")} required className="input-field">
-                  <option value="" disabled>Select time</option>
-                  {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                <select
+                  value={form.time}
+                  onChange={set("time")}
+                  required
+                  className="input-field"
+                >
+                  <option value="" disabled>
+                    Select time
+                  </option>
+                  {TIME_SLOTS.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -197,7 +247,9 @@ export default function CreateAppointmentPage() {
               <div>
                 <label className="field-label">
                   Additional notes{" "}
-                  <span className="normal-case text-zinc-300 font-normal">(optional)</span>
+                  <span className="normal-case text-zinc-300 font-normal">
+                    (optional)
+                  </span>
                 </label>
                 <textarea
                   value={form.notes}
@@ -222,12 +274,31 @@ export default function CreateAppointmentPage() {
             <Link href="/appointments" className="btn-ghost flex-1">
               Cancel
             </Link>
-            <button type="submit" disabled={loading} className="btn-primary flex-1">
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary flex-1"
+            >
               {loading ? (
                 <>
-                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
-                    <path fill="currentColor" className="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  <svg
+                    className="animate-spin h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      className="opacity-25"
+                    />
+                    <path
+                      fill="currentColor"
+                      className="opacity-75"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
                   </svg>
                   Booking…
                 </>
